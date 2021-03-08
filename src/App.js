@@ -1,5 +1,5 @@
 import SearchBar from "./components/SearchBar";
-imoprt { Map } from './components'
+import { Map } from './components'
 
 function App() {
   return (
