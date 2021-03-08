@@ -14,9 +14,19 @@ function App() {
       longitude,
       "30"
     );
-    console.log(results);
     setINatResults(results);
   };
+
+  const getLocation = (e) => {
+    e.preventDefault();
+    const success = async (pos) => {
+      const { latitude, longitude } = await pos.coords;
+      setLatitude(latitude);
+      setLongitude(longitude);
+    };
+    navigator.geolocation.getCurrentPosition(success);
+  };
+
   return (
     <div className="App">
       <form onSubmit={handleSubmit} action="">
@@ -37,6 +47,7 @@ function App() {
           placeholder="longitue"
         />
         <button>Submit</button>
+        <button onClick={getLocation}>get my location</button>
       </form>
       <ul>Results</ul>
       {iNatResults.map((result) => (
