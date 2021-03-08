@@ -45,6 +45,7 @@ const SearchBar = () => {
         placeholder="longitue"
       />
       <button>Submit</button>
+      {iNatResults && <p>Got results</p>}
       <button onClick={getLocation}>get my location</button>
     </form>
   );
