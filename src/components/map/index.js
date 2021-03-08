@@ -80,7 +80,10 @@ function Map() {
 					>
 						<div>
 							<h2>Mushroom</h2>
-							<p>found at </p>
+							<p>
+								found at latitude:{selected.lat} longitude:
+								{selected.lng}
+							</p>
 						</div>
 					</InfoWindow>
 				) : null}
