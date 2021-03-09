@@ -21,23 +21,13 @@ const options = {
   zoomControl: true,
 };
 
-function Map() {
+function Map({ iNatResults, userLocation }) {
+  console.log(userLocation);
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   });
   const [markers, setMarkers] = useState([]);
   const [selected, setSelected] = useState(null);
-
-  const onMapClick = useCallback((event) => {
-    setMarkers((current) => [
-      ...current,
-      {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-        time: new Date(),
-      },
-    ]);
-  }, []);
 
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
@@ -47,6 +37,9 @@ function Map() {
   const panTo = useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
   }, []);
+  // useEffect(() => {
+  //   panTo({ lat: userLocation[0], lng: userLocation[1] });
+  // }, []);
   useEffect(() => {
     const success = async (pos) => {
       const { latitude, longitude } = await pos.coords;
@@ -64,19 +57,15 @@ function Map() {
         zoom={11}
         center={center}
         options={options}
-        onClick={
-          selected
-            ? () => {
-                setSelected(null);
-              }
-            : onMapClick
-        }
         onLoad={onMapLoad}
       >
-        {markers.map((marker) => (
+        {iNatResults.map((marker) => (
           <Marker
-            key={marker.time.toISOString()}
-            position={{ lat: marker.lat, lng: marker.lng }}
+            key={marker.id}
+            position={{
+              lat: marker.geojson.coordinates[1],
+              lng: marker.geojson.coordinates[0],
+            }}
             icon={{
               url: "/mushroom.png",
               scaledSize: new window.google.maps.Size(30, 30),
