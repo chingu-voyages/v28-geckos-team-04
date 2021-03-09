@@ -19,9 +19,6 @@ function App() {
     setIsLoggedIn(true);
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
   useEffect(() => {
     const success = async (pos) => {
       const { latitude, longitude } = await pos.coords;
@@ -40,19 +37,16 @@ function App() {
 
   return (
     <div className="App">
-      {/* <Route
-        path="/"
-        render={(props) => (
-          <NavBar {...props} {...this.state} handleLogout={handleLogout} />
-        )}
-      />
+      <Route path="/" render={() => <NavBar />} />
       <Route
         exact
         path="/login"
-        render={(props) => <Login {...props} handleLogin={handleLogin} />}
+        render={(props) => (
+          <Login isLoggedIn={isLoggedIn} handleLogin={handleLogin} />
+        )}
       />
       <Route exact path="/register" component={Register} />
-      <Route exact path="/about" component={About} /> */}
+      <Route exact path="/about" component={About} />
       <main>
         <section className="main">
           <Route exact path="/home" component={SearchBar} />

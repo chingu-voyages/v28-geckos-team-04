@@ -26,7 +26,6 @@ function Map({ iNatResults, userLocation }) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   });
-  const [markers, setMarkers] = useState([]);
   const [selected, setSelected] = useState(null);
 
   const mapRef = useRef();
@@ -46,7 +45,7 @@ function Map({ iNatResults, userLocation }) {
       panTo({ lat: latitude, lng: longitude });
     };
     navigator.geolocation.getCurrentPosition(success);
-  }, []);
+  }, [panTo]);
 
   if (loadError) return "Error loading map";
   if (!isLoaded) return "Loading map...";
