@@ -22,7 +22,6 @@ const options = {
 };
 
 function Map({ iNatResults, userLocation }) {
-  console.log(userLocation);
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   });
@@ -36,9 +35,7 @@ function Map({ iNatResults, userLocation }) {
   const panTo = useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
   }, []);
-  // useEffect(() => {
-  //   panTo({ lat: userLocation[0], lng: userLocation[1] });
-  // }, []);
+
   useEffect(() => {
     const success = async (pos) => {
       const { latitude, longitude } = await pos.coords;
@@ -77,7 +74,10 @@ function Map({ iNatResults, userLocation }) {
 
         {selected ? (
           <InfoWindow
-            position={{ lat: selected.lat, lng: selected.lng }}
+            position={{
+              lat: selected.geojson.coordinates[1] + 0.04,
+              lng: selected.geojson.coordinates[0],
+            }}
             onCloseClick={() => {
               setSelected(null);
             }}
@@ -85,8 +85,8 @@ function Map({ iNatResults, userLocation }) {
             <div>
               <h2>Mushroom</h2>
               <p>
-                found at latitude:{selected.lat} longitude:
-                {selected.lng}
+                found at latitude:{selected.geojson.coordinates[1]} longitude:
+                {selected.geojson.coordinates[0]}
               </p>
             </div>
           </InfoWindow>
