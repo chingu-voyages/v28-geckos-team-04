@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Route } from "react-router-dom";
-import SearchBar from "./components/SearchBar";
 import NavBar from "./components/Navbar/NavBar";
 import Login from "./components/Login/Login";
 import About from "./components/About/About";
 import Register from "./components/Register/Register";
+import NavToggle from "./components/Navbar/NavToggle";
 import { Map } from "./components";
 import { getDataFromINat } from "./utils";
 import "./App.css";
@@ -15,8 +15,14 @@ function App() {
   const [iNatResults, setINatResults] = useState([]);
   const [userLocation, setUserLocation] = useState([]);
 
+  const [showNav, setShowNav] = useState(false);
+
   const handleLogin = () => {
     setIsLoggedIn(true);
+  };
+
+  const handleNavToggle = () => {
+    setShowNav((prevValue) => !prevValue);
   };
 
   useEffect(() => {
@@ -37,7 +43,12 @@ function App() {
 
   return (
     <div className="App">
-      <Route path="/" render={() => <NavBar />} />
+      <Route
+        path="/"
+        render={() => (
+          <NavBar handleNavToggle={handleNavToggle} showNav={showNav} />
+        )}
+      />
       <Route
         exact
         path="/login"
@@ -49,7 +60,7 @@ function App() {
       <Route exact path="/about" component={About} />
       <main>
         <section className="main">
-          <Route exact path="/home" component={SearchBar} />
+          <NavToggle handleNavToggle={handleNavToggle} />
           <Map iNatResults={iNatResults} userLocation={userLocation} />
         </section>
       </main>
