@@ -36,10 +36,15 @@ function App() {
         "30"
       );
       setINatResults(results);
-      console.log(results);
     };
     navigator.geolocation.getCurrentPosition(success);
   }, []);
+
+  const handleDrag = async (e) => {
+    const { lat, lng } = await e.toJSON();
+    const { results } = await getDataFromINat("Morchella", lat, lng, "30");
+    setINatResults(results);
+  };
 
   return (
     <div className="App">
@@ -61,7 +66,7 @@ function App() {
       <main>
         <section className="main">
           <NavToggle handleNavToggle={handleNavToggle} />
-          <Map iNatResults={iNatResults} userLocation={userLocation} />
+          <Map iNatResults={iNatResults} handleDrag={handleDrag} />
         </section>
       </main>
     </div>
