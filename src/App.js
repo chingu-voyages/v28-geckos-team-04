@@ -66,7 +66,11 @@ function App() {
       <main>
         <section className="main">
           <NavToggle handleNavToggle={handleNavToggle} />
-          <Map iNatResults={iNatResults} handleDrag={handleDrag} />
+          <Map
+            userLocation={userLocation}
+            iNatResults={iNatResults}
+            handleDrag={handleDrag}
+          />
         </section>
       </main>
     </div>
