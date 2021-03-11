@@ -88,7 +88,7 @@ function Map({ iNatResults, handleDrag }) {
 						}}
 					>
 						<div>
-							<h2>Mushroom</h2>
+							<h2>{selected.taxon.name}</h2>
 							<p>
 								found at latitude:{selected.geojson.coordinates[1]}{' '}
 								longitude:
