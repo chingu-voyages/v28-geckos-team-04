@@ -1,0 +1,134 @@
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+  margin: 0;
+}
+
+.App {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+/* Navbar - public Route / landing page */
+
+.nav-home {
+  border-bottom: grey 4px solid;
+  background: grey;
+  padding: 15px;
+  font-size: 30px;
+  width: 250px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  transform: translate(-500px);
+  transition: transform 0.5s;
+}
+
+.nav-home.show-nav {
+  transform: translate(0px);
+}
+
+.nav-toggle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  position: fixed;
+  z-index: 5;
+  transform: translate(-25px, 50vh);
+  border: none;
+  background-color: tomato;
+  opacity: 0.4;
+  transition: opacity 0.5s;
+}
+
+.nav-toggle:hover {
+  opacity: 0.8;
+}
+
+.close-nav {
+  width: 50px;
+  height: 50px;
+}
+
+.close-nav img {
+  width: 100%;
+  height: auto;
+}
+
+nav h1 {
+  font-size: 35px;
+}
+
+.nav-links a {
+  margin: 10px;
+  font-size: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+nav h1,
+nav a {
+  text-decoration: none;
+}
+.nav-home ul {
+  list-style-type: none;
+  padding: 0;
+  text-align: end;
+  padding-inline-end: 5px;
+}
+
+nav a:hover {
+  color: white;
+}
+
+nav a:visited {
+  color: black;
+}
+
+/* About page */
+
+.about-ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* login page */
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-section {
+  display: flex;
+  flex-direction: column;
+}
+/* Register */
+
+.register-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  border: grey 2px solid;
+  padding: 10px;
+}
+
+@media screen and (min-width: 320px) and (max-width: 768px) {
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+  }
+}
