@@ -79,8 +79,11 @@ function Map({ iNatResults, handleDrag }) {
 
 				{selected ? (
 					<InfoWindow
+						options={{
+							pixelOffset: new window.google.maps.Size(0, -30),
+						}}
 						position={{
-							lat: selected.geojson.coordinates[1] + 0.04,
+							lat: selected.geojson.coordinates[1],
 							lng: selected.geojson.coordinates[0],
 						}}
 						onCloseClick={() => {
