@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import close from "../../assets/close.png";
 
 export default class NavBar extends React.Component {
   handleLogout = (e) => {
@@ -13,7 +14,15 @@ export default class NavBar extends React.Component {
       <nav>
         {!this.props.isLoggedIn ? (
           <>
-            <div className="nav-home">
+            <div
+              className={`nav-home ${this.props.showNav ? "show-nav" : null}`}
+            >
+              <button
+                onClick={this.props.handleNavToggle}
+                className="close-nav"
+              >
+                <img src={close} alt="" />
+              </button>
               <div className="nav-logo">
                 <h1>
                   <Link to="/">Mushroom Finder</Link>
