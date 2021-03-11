@@ -21,15 +21,18 @@ const options = {
   zoomControl: true,
 };
 
-function Map({ iNatResults, userLocation }) {
+function Map({ iNatResults, handleDrag }) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   });
   const [selected, setSelected] = useState(null);
 
+  // const [center, setCenter] = useState(center);
+
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
+    console.log(mapRef.current.getCenter());
   }, []);
 
   const panTo = useCallback(({ lat, lng }) => {
@@ -40,9 +43,14 @@ function Map({ iNatResults, userLocation }) {
     const success = async (pos) => {
       const { latitude, longitude } = await pos.coords;
       panTo({ lat: latitude, lng: longitude });
+      // setCenter({ lat: latitude, lng: longitude });
     };
     navigator.geolocation.getCurrentPosition(success);
   }, [panTo]);
+
+  const getNewCenter = () => {
+    handleDrag(mapRef.current.getCenter());
+  };
 
   if (loadError) return "Error loading map";
   if (!isLoaded) return "Loading map...";
@@ -54,6 +62,7 @@ function Map({ iNatResults, userLocation }) {
         center={center}
         options={options}
         onLoad={onMapLoad}
+        onIdle={getNewCenter}
       >
         {iNatResults.map((marker) => (
           <Marker
