@@ -72,12 +72,14 @@ function Map({ iNatResults, handleDrag, userLocation }) {
         onIdle={getNewCenter}
         onClick={selected ? () => setSelected(null) : null}
       >
-        <Marker
-          position={{
-            lat: userLocation.coords.latitude,
-            lng: userLocation.coords.longitude,
-          }}
-        />
+        {userLocation && (
+          <Marker
+            position={{
+              lat: userLocation.coords.latitude,
+              lng: userLocation.coords.longitude,
+            }}
+          />
+        )}
         {iNatResults.map((marker) => (
           <Marker
             key={marker.id}
