@@ -125,6 +125,13 @@ nav a:visited {
   padding: 10px;
 }
 
+.home-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 5;
+}
+
 @media screen and (min-width: 320px) and (max-width: 768px) {
   .register-form {
     display: flex;
