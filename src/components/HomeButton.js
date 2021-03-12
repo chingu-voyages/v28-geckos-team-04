@@ -1,4 +1,5 @@
 import React from "react";
+import compass from "../assets/compass.png";
 
 const HomeButton = ({ userLocation, handleHomeButton }) => {
   return (
@@ -6,7 +7,7 @@ const HomeButton = ({ userLocation, handleHomeButton }) => {
       onClick={() => handleHomeButton(userLocation)}
       className="home-button"
     >
-      RETURN HOME
+      <img src={compass} alt="RETURN HOME" />
     </button>
   );
 };
