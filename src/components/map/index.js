@@ -6,7 +6,7 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 import mapStyles from "./styles/mapStyles";
-import HomeButton from "../HomeButton";
+import CenterUserButton from "../CenterUserButton";
 
 const mapContainerStyle = {
   width: "100vw",
@@ -37,9 +37,10 @@ function Map({ iNatResults, handleDrag, userLocation }) {
     mapRef.current.panTo({ lat, lng });
   }, []);
 
-  const handleHomeButton = (pos) => {
+  const handleCenterUser = (pos) => {
     const { latitude, longitude } = pos.coords;
     panTo({ lat: latitude, lng: longitude });
+    mapRef.current.setZoom(11);
   };
 
   useEffect(() => {
@@ -58,9 +59,9 @@ function Map({ iNatResults, handleDrag, userLocation }) {
   if (!isLoaded) return "Loading map...";
   return (
     <div>
-      <HomeButton
+      <CenterUserButton
         userLocation={userLocation}
-        handleHomeButton={handleHomeButton}
+        handleHomeButton={handleCenterUser}
       />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
