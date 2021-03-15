@@ -31,7 +31,6 @@ function Map({ iNatResults, handleDrag, userLocation }) {
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
-    console.log(mapRef.current.getCenter());
   }, []);
 
   const panTo = useCallback(({ lat, lng }) => {
@@ -52,7 +51,7 @@ function Map({ iNatResults, handleDrag, userLocation }) {
   }, [panTo]);
 
   const getNewCenter = () => {
-    handleDrag(mapRef.current.getCenter());
+    handleDrag(mapRef.current.getBounds());
   };
 
   if (loadError) return "Error loading map";
