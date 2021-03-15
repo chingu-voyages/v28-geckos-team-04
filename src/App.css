@@ -1,38 +1,150 @@
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+  margin: 0;
+}
+
 .App {
-  text-align: center;
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
+/* Navbar - public Route / landing page */
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.nav-home {
+  border-bottom: grey 4px solid;
+  background: grey;
+  padding: 15px;
+  font-size: 30px;
+  width: 250px;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  flex-wrap: wrap;
+  position: fixed;
+  top: 0;
+  right: -250px;
+  z-index: 10;
+  transition: transform 0.5s;
+}
+
+.nav-home.show-nav {
+  transform: translate(-250px);
+}
+
+.nav-toggle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  position: fixed;
+  top: 50vh;
+  right: -25px;
+  z-index: 5;
+  border: none;
+  background-color: tomato;
+  opacity: 0.4;
+  transition: opacity 0.5s;
+}
+
+.nav-toggle:hover {
+  opacity: 0.8;
+}
+
+.close-nav {
+  width: 50px;
+  height: 50px;
+}
+
+.close-nav img {
+  width: 100%;
+  height: auto;
+}
+
+nav h1 {
+  font-size: 35px;
+}
+
+.nav-links a {
+  margin: 10px;
+  font-size: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+nav h1,
+nav a {
+  text-decoration: none;
+}
+.nav-home ul {
+  list-style-type: none;
+  padding: 0;
+  text-align: end;
+  padding-inline-end: 5px;
+}
+
+nav a:hover {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+nav a:visited {
+  color: black;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+/* About page */
+
+.about-ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* login page */
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-section {
+  display: flex;
+  flex-direction: column;
+}
+/* Register */
+
+.register-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  border: grey 2px solid;
+  padding: 10px;
+}
+
+.home-button {
+  position: fixed;
+  padding: 0;
+  border-radius: 50%;
+  top: 20px;
+  right: 20px;
+  height: 40px;
+  width: 40px;
+  z-index: 5;
+}
+
+.home-button img {
+  width: 100%;
+  height: auto;
+}
+
+@media screen and (min-width: 320px) and (max-width: 768px) {
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
   }
 }
