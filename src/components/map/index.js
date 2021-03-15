@@ -51,7 +51,7 @@ function Map({ iNatResults, handleDrag, userLocation }) {
     navigator.geolocation.getCurrentPosition(success);
   }, [panTo]);
 
-  const getNewCenter = () => {
+  const getNewBounds = () => {
     handleDrag(mapRef.current.getBounds());
   };
 
@@ -69,7 +69,7 @@ function Map({ iNatResults, handleDrag, userLocation }) {
         center={center}
         options={options}
         onLoad={onMapLoad}
-        onIdle={getNewCenter}
+        onIdle={getNewBounds}
         onClick={selected ? () => setSelected(null) : null}
       >
         {userLocation && (
