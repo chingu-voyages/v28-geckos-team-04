@@ -1,6 +1,6 @@
-export const getDataFromINat = async (taxa, latitude, longitude, radius) => {
+export const getDataFromINat = async (taxa, neLat, neLng, swLat, swLng) => {
   const res = await fetch(
-    `https://api.inaturalist.org/v1/observations?taxon_name=${taxa}&iconic_taxa=Fungi&lat=${latitude}&lng=${longitude}&radius=${radius}&order=desc&order_by=created_at`
+    `https://api.inaturalist.org/v1/observations?taxon_name=${taxa}&iconic_taxa=Fungi&nelat=${neLat}&nelng=${neLng}&swlat=${swLat}&swlng=${swLng}&per_page=100&order=desc&order_by=created_at`
   );
   const data = await res.json();
   return data;

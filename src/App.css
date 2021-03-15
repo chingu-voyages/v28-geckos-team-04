@@ -23,14 +23,13 @@
   flex-wrap: wrap;
   position: fixed;
   top: 0;
-  left: 0;
+  right: -250px;
   z-index: 10;
-  transform: translate(-500px);
   transition: transform 0.5s;
 }
 
 .nav-home.show-nav {
-  transform: translate(0px);
+  transform: translate(-250px);
 }
 
 .nav-toggle {
@@ -38,8 +37,9 @@
   height: 50px;
   border-radius: 50%;
   position: fixed;
+  top: 50vh;
+  right: -25px;
   z-index: 5;
-  transform: translate(-25px, 50vh);
   border: none;
   background-color: tomato;
   opacity: 0.4;

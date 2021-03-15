@@ -26,23 +26,22 @@ function App() {
   };
 
   useEffect(() => {
-    const success = async (pos) => {
-      const { latitude, longitude } = await pos.coords;
+    const success = (pos) => {
       setUserLocation(pos);
-      const { results } = await getDataFromINat(
-        "Morchella",
-        latitude,
-        longitude,
-        "30"
-      );
-      setINatResults(results);
     };
     navigator.geolocation.getCurrentPosition(success);
   }, []);
 
   const handleDrag = async (e) => {
-    const { lat, lng } = await e.toJSON();
-    const { results } = await getDataFromINat("Morchella", lat, lng, "30");
+    const { lat: neLat, lng: neLng } = await e.getNorthEast().toJSON();
+    const { lat: swLat, lng: swLng } = await e.getSouthWest().toJSON();
+    const { results } = await getDataFromINat(
+      "Morchella",
+      neLat,
+      neLng,
+      swLat,
+      swLng
+    );
     setINatResults(results);
   };
 

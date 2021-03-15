@@ -1,7 +1,7 @@
 import React from "react";
 import compass from "../assets/compass.png";
 
-const HomeButton = ({ userLocation, handleHomeButton }) => {
+const CenterUserButton = ({ userLocation, handleHomeButton }) => {
   return (
     <button
       onClick={() => handleHomeButton(userLocation)}
@@ -12,4 +12,4 @@ const HomeButton = ({ userLocation, handleHomeButton }) => {
   );
 };
 
-export default HomeButton;
+export default CenterUserButton;

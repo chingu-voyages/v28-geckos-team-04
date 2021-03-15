@@ -6,7 +6,7 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 import mapStyles from "./styles/mapStyles";
-import HomeButton from "../HomeButton";
+import CenterUserButton from "../CenterUserButton";
 
 const mapContainerStyle = {
   width: "100vw",
@@ -31,16 +31,16 @@ function Map({ iNatResults, handleDrag, userLocation }) {
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
-    console.log(mapRef.current.getCenter());
   }, []);
 
   const panTo = useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
   }, []);
 
-  const handleHomeButton = (pos) => {
+  const handleCenterUser = (pos) => {
     const { latitude, longitude } = pos.coords;
     panTo({ lat: latitude, lng: longitude });
+    mapRef.current.setZoom(11);
   };
 
   useEffect(() => {
@@ -51,17 +51,17 @@ function Map({ iNatResults, handleDrag, userLocation }) {
     navigator.geolocation.getCurrentPosition(success);
   }, [panTo]);
 
-  const getNewCenter = () => {
-    handleDrag(mapRef.current.getCenter());
+  const getNewBounds = () => {
+    handleDrag(mapRef.current.getBounds());
   };
 
   if (loadError) return "Error loading map";
   if (!isLoaded) return "Loading map...";
   return (
     <div>
-      <HomeButton
+      <CenterUserButton
         userLocation={userLocation}
-        handleHomeButton={handleHomeButton}
+        handleHomeButton={handleCenterUser}
       />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
@@ -69,7 +69,7 @@ function Map({ iNatResults, handleDrag, userLocation }) {
         center={center}
         options={options}
         onLoad={onMapLoad}
-        onIdle={getNewCenter}
+        onIdle={getNewBounds}
         onClick={selected ? () => setSelected(null) : null}
       >
         {userLocation && (
