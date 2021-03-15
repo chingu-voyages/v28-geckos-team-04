@@ -28,6 +28,7 @@ function Map({ iNatResults, handleDrag, userLocation }) {
   });
   const [selected, setSelected] = useState(null);
 
+  const [taxa, setTaxa] = useState(["Morchella", "Pleurotus"]);
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
@@ -52,7 +53,7 @@ function Map({ iNatResults, handleDrag, userLocation }) {
   }, [panTo]);
 
   const getNewBounds = () => {
-    handleDrag(mapRef.current.getBounds());
+    handleDrag({ taxa: taxa, bounds: mapRef.current.getBounds() });
   };
 
   if (loadError) return "Error loading map";
