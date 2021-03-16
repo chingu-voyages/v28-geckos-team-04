@@ -10,6 +10,8 @@ import mapStyles from "./styles/mapStyles";
 import CenterUserButton from "../CenterUserButton";
 import PlacesSearch from "../PlacesSearch";
 
+import Select from "react-select";
+
 const mapContainerStyle = {
   width: "100vw",
   height: "100vh",
@@ -25,12 +27,47 @@ const options = {
 };
 const libraries = ["places"]; //avoid unnecessary rerenders
 
+const taxaOptions = [
+  {
+    value: "Morchella",
+    label: "Morchella",
+  },
+  {
+    value: "Pleurotus",
+    label: "Pleurotus",
+  },
+  {
+    value: "Cantharellus",
+    label: "Cantharellus",
+  },
+  {
+    value: "Laetiporus",
+    label: "Laetiporus",
+  },
+];
+
+const selectorStyles = {
+  menu: (provided, state) => ({
+    ...provided,
+    width: "200px",
+    marginTop: "50px",
+  }),
+  control: (provided, state) => ({
+    ...provided,
+    width: "200px",
+    position: "fixed",
+    zIndex: "2",
+  }),
+};
+
 function Map({ iNatResults, handleDrag, userLocation }) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
   const [selected, setSelected] = useState(null);
+
+  const [taxa, setTaxa] = useState([taxaOptions[0]]);
 
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
@@ -58,15 +95,27 @@ function Map({ iNatResults, handleDrag, userLocation }) {
 
   const getNewBounds = () => {
     handleDrag({
-      taxa: ["Morchella", "Pleurotus"],
+      taxa: taxa,
       bounds: mapRef.current.getBounds(),
     });
+  };
+
+  const handleTaxaChange = async (e) => {
+    setTaxa(e);
+    getNewBounds();
   };
 
   if (loadError) return "Error loading map";
   if (!isLoaded) return "Loading map...";
   return (
     <div>
+      <Select
+        isMulti
+        value={taxa}
+        onChange={handleTaxaChange}
+        options={taxaOptions}
+        styles={selectorStyles}
+      />
       <CenterUserButton
         userLocation={userLocation}
         handleHomeButton={handleCenterUser}

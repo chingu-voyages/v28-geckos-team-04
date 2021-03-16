@@ -34,19 +34,22 @@ function App() {
 
   const handleDrag = async ({ taxa, bounds }) => {
     setINatResults([]);
+    console.log(taxa);
     const { lat: neLat, lng: neLng } = await bounds.getNorthEast().toJSON();
     const { lat: swLat, lng: swLng } = await bounds.getSouthWest().toJSON();
-    taxa.forEach(async (taxon) => {
-      const { results } = await getDataFromINat(
-        taxon,
-        neLat,
-        neLng,
-        swLat,
-        swLng,
-        Math.floor(100 / taxa.length)
-      );
-      setINatResults((prevValue) => [...prevValue, ...results]);
-    });
+    if (taxa.length) {
+      taxa.forEach(async (taxon) => {
+        const { results } = await getDataFromINat(
+          taxon.value,
+          neLat,
+          neLng,
+          swLat,
+          swLng,
+          Math.floor(100 / taxa.length)
+        );
+        setINatResults((prevValue) => [...prevValue, ...results]);
+      });
+    }
   };
 
   return (
