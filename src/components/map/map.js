@@ -9,6 +9,7 @@ import {
 import mapStyles from "./styles/mapStyles";
 import CenterUserButton from "../CenterUserButton";
 import PlacesSearch from "../PlacesSearch";
+import { taxaOptions, selectorStyles } from "../../utils";
 
 import Select from "react-select";
 
@@ -26,39 +27,6 @@ const options = {
   zoomControl: true,
 };
 const libraries = ["places"]; //avoid unnecessary rerenders
-
-const taxaOptions = [
-  {
-    value: "Morchella",
-    label: "Morchella",
-  },
-  {
-    value: "Pleurotus",
-    label: "Pleurotus",
-  },
-  {
-    value: "Cantharellus",
-    label: "Cantharellus",
-  },
-  {
-    value: "Laetiporus",
-    label: "Laetiporus",
-  },
-];
-
-const selectorStyles = {
-  menu: (provided, state) => ({
-    ...provided,
-    width: "200px",
-    marginTop: "50px",
-  }),
-  control: (provided, state) => ({
-    ...provided,
-    width: "200px",
-    position: "fixed",
-    zIndex: "2",
-  }),
-};
 
 function Map({ iNatResults, handleDrag, userLocation }) {
   const { isLoaded, loadError } = useLoadScript({

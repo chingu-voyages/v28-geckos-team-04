@@ -12,3 +12,36 @@ export const getDataFromINat = async (
   const data = await res.json();
   return data;
 };
+
+export const taxaOptions = [
+  {
+    value: "Morchella",
+    label: "Morchella",
+  },
+  {
+    value: "Pleurotus",
+    label: "Pleurotus",
+  },
+  {
+    value: "Cantharellus",
+    label: "Cantharellus",
+  },
+  {
+    value: "Laetiporus",
+    label: "Laetiporus",
+  },
+];
+
+export const selectorStyles = {
+  menu: (provided, state) => ({
+    ...provided,
+    width: "200px",
+    marginTop: "50px",
+  }),
+  control: (provided, state) => ({
+    ...provided,
+    width: "200px",
+    position: "fixed",
+    zIndex: "2",
+  }),
+};
