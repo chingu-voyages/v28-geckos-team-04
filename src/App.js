@@ -1,61 +1,83 @@
-import React from "react";
-import {Route} from "react-router-dom"
-import SearchBar from "./components/SearchBar";
+import React, { useState, useEffect } from "react";
+import { Route } from "react-router-dom";
 import NavBar from "./components/Navbar/NavBar";
 import Login from "./components/Login/Login";
 import About from "./components/About/About";
 import Register from "./components/Register/Register";
+import NavToggle from "./components/Navbar/NavToggle";
 import { Map } from "./components";
+import { getDataFromINat } from "./utils";
 import "./App.css";
 
+function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-class App extends React.Component{
-  state = {
-    isLoggedIn: false,
+  const [iNatResults, setINatResults] = useState([]);
+  const [userLocation, setUserLocation] = useState(null);
+  //const [user, setUser] = useState("")
+
+  const [showNav, setShowNav] = useState(false);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
   };
 
-  handleLogin = () => {
-    this.setState({
-      isLoggedIn: true,
-    });
+  const handleNavToggle = () => {
+    setShowNav((prevValue) => !prevValue);
   };
 
-  handleLogout = () => {
-    this.setState({
-      isLoggedIn: false,
-    });
+  useEffect(() => {
+    const success = (pos) => {
+      setUserLocation(pos);
+    };
+    navigator.geolocation.getCurrentPosition(success);
+  }, []);
+
+  const handleDrag = async (e) => {
+    const { lat: neLat, lng: neLng } = await e.getNorthEast().toJSON();
+    const { lat: swLat, lng: swLng } = await e.getSouthWest().toJSON();
+    const { results } = await getDataFromINat(
+      "Morchella",
+      neLat,
+      neLng,
+      swLat,
+      swLng
+    );
+    setINatResults(results);
   };
 
+  
 
-  render(){
-    return(
-      <div className="App">
-        <Route
-          path="/"
-          render={(props) => (
-            <NavBar {...props} {...this.state} handleLogout={this.handleLogout} />
-          )}
-        />
-        <Route
-          exact
-          path="/login"
-          render={(props) => (
-            <Login {...props} handleLogin={this.handleLogin} />
-          )}
-        />
-       <Route exact path="/register" component={Register} />
-        <Route exact path="/about" component={About} />
+  return (
+    <div className="App">
+      <Route
+        path="/"
+        render={() => (
+          <NavBar handleNavToggle={handleNavToggle} showNav={showNav} />
+        )}
+      />
+      <Route
+        exact
+        path="/login"
+        render={(props) => (
+          <Login isLoggedIn={isLoggedIn} handleLogin={handleLogin} />
+        )}
+      />
+      <Route exact path="/register" component={Register} />
+      <Route exact path="/about" component={About} />
       <main>
         <section className="main">
-          <Route exact path="/home"  component={SearchBar}/>
-          <Map />
+          <NavToggle handleNavToggle={handleNavToggle} />
+          <Map
+            userLocation={userLocation}
+            iNatResults={iNatResults}
+            handleDrag={handleDrag}
+          />
         </section>
       </main>
     </div>
-    );
-  }
+  );
 }
 
-
-
 export default App;
+

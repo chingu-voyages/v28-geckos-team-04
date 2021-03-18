@@ -1,11 +1,28 @@
 import React from "react";
+import AuthAPIService from "../../services/AuthAPIService";
+import TokenService from "../../services/TokenService"
 import {Link} from "react-router-dom";
 
 export default class Login extends React.Component{
+  state = {
+    error: null,
+  }
     handleLogin = (e) => {
         e.preventDefault();
-        this.props.handleLogin(e);
-        this.props.history.push("/home")
+        const {username, password} = e.target;
+        this.setState({
+          error: null,
+        });
+        const user = {username: username.value, password: password.value};
+        AuthAPIService.postLogin(user)
+          .then((loginResponse) => {
+            TokenService.readJwtToken(loginResponse.authToken);
+            this.props.history.push("/home")
+          })
+          .catch((res) => {
+            this.setState({error: res.error});
+          });
+    
     };
 
   render() {
@@ -13,7 +30,8 @@ export default class Login extends React.Component{
       <React.Fragment>
         <h1>Login to Your Account</h1>
         <div className="login-form">
-          <form className="login-form">
+          <form className="login-form" onSubmit={this.handleLogin}>
+            {this.state.error && <p className="error">{this.state.error}</p>}
             <div className="login-section">
                <label className="email-label">Email</label>
                <input type="text" name="email" defaultValue="demo@demo.com" />
@@ -23,7 +41,7 @@ export default class Login extends React.Component{
             </div>
             <div></div>
           </form>
-          <button onClick={(e) => this.handleLogin(e)}>Sign in</button>
+          <button id="sign-in">Sign in</button>
         </div>
         <div className="create-account">
             <Link to="/register">Create an Account</Link>
