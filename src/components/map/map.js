@@ -9,9 +9,9 @@ import {
 import mapStyles from "./styles/mapStyles";
 import CenterUserButton from "../CenterUserButton";
 import PlacesSearch from "../PlacesSearch";
-import { taxaOptions, selectorStyles } from "../../utils";
+import { taxaOptions } from "../../utils";
 
-import Select from "react-select";
+import SpeciesSelect from "../SpeciesSelect";
 
 const mapContainerStyle = {
   width: "100vw",
@@ -77,13 +77,7 @@ function Map({ iNatResults, handleDrag, userLocation }) {
   if (!isLoaded) return "Loading map...";
   return (
     <div>
-      <Select
-        isMulti
-        value={taxa}
-        onChange={handleTaxaChange}
-        options={taxaOptions}
-        styles={selectorStyles}
-      />
+      <SpeciesSelect value={taxa} handleTaxaChange={handleTaxaChange} />
       <CenterUserButton
         userLocation={userLocation}
         handleHomeButton={handleCenterUser}

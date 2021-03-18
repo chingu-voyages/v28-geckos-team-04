@@ -35,13 +35,19 @@ export const taxaOptions = [
 export const selectorStyles = {
   menu: (provided, state) => ({
     ...provided,
-    width: "200px",
+    width: "400px",
     marginTop: "50px",
+    position: "fixed",
+    left: "-400px",
+    top: "25vh",
+    zIndex: "2",
   }),
   control: (provided, state) => ({
     ...provided,
-    width: "200px",
+    width: "400px",
     position: "fixed",
+    left: "-400px",
+    top: "25vh",
     zIndex: "2",
   }),
 };
