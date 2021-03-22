@@ -2,12 +2,12 @@ import React from "react";
 import {Link} from "react-router-dom";
 import TokenService from "../../services/TokenService";
 
-export default class NavBar extends React.Component{
-    handleLogout = (e) => {
-        e.preventDefault();
-        this.props.handleLogout(e);
-        this.props.history.push("/")
-    };
+export default class NavBar extends React.Component {
+  handleLogout = (e) => {
+    e.preventDefault();
+    this.props.handleLogout(e);
+    this.props.history.push("/");
+  };
 
 
     render(){
