@@ -6,6 +6,10 @@ import {Link} from "react-router-dom";
 export default class Login extends React.Component{
   state = {
     error: null,
+    user : {
+      username: "",
+      password: ""
+    }
   }
     handleLogin = (e) => {
         e.preventDefault();
@@ -24,6 +28,15 @@ export default class Login extends React.Component{
           });
     
     };
+    setUser = (user) => {
+      this.setState({
+        user: {
+          username: user.sub,
+          password: user.password
+        }
+
+      })
+    }
 
   render() {
     return (

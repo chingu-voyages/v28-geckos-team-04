@@ -14,7 +14,7 @@ function App() {
 
   const [iNatResults, setINatResults] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
-  //const [user, setUser] = useState("")
+  
 
   const [showNav, setShowNav] = useState(false);
 
@@ -46,7 +46,6 @@ function App() {
     setINatResults(results);
   };
 
-  
 
   return (
     <div className="App">

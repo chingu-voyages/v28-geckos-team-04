@@ -1,5 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import TokenService from "../../services/TokenService";
 
 export default class NavBar extends React.Component{
     handleLogout = (e) => {
@@ -12,7 +13,7 @@ export default class NavBar extends React.Component{
     render(){
         return(
             <nav>
-                {!this.props.isLoggedIn ? (
+                {!TokenService.hasAuthToken() ? (
              <>
               <div className="nav-home">
                   <div className="nav-logo">
