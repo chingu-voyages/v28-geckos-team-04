@@ -32,17 +32,24 @@ function App() {
     navigator.geolocation.getCurrentPosition(success);
   }, []);
 
-  const handleDrag = async (e) => {
-    const { lat: neLat, lng: neLng } = await e.getNorthEast().toJSON();
-    const { lat: swLat, lng: swLng } = await e.getSouthWest().toJSON();
-    const { results } = await getDataFromINat(
-      "Morchella",
-      neLat,
-      neLng,
-      swLat,
-      swLng
-    );
-    setINatResults(results);
+  const handleDrag = async ({ taxa, bounds }) => {
+    setINatResults([]);
+    console.log(taxa);
+    const { lat: neLat, lng: neLng } = await bounds.getNorthEast().toJSON();
+    const { lat: swLat, lng: swLng } = await bounds.getSouthWest().toJSON();
+    if (taxa.length) {
+      taxa.forEach(async (taxon) => {
+        const { results } = await getDataFromINat(
+          taxon.value,
+          neLat,
+          neLng,
+          swLat,
+          swLng,
+          Math.floor(100 / taxa.length)
+        );
+        setINatResults((prevValue) => [...prevValue, ...results]);
+      });
+    }
   };
 
   return (
