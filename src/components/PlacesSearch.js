@@ -8,7 +8,7 @@ import {
 } from '@reach/combobox'
 import '@reach/combobox/styles.css'
 
-function PlacesSearch({ panTo }) {
+function PlacesSearch({ panTo, userLocation }) {
 	const {
 		ready,
 		value,
@@ -17,7 +17,10 @@ function PlacesSearch({ panTo }) {
 		clearSuggestions,
 	} = usePlacesAutoComplete({
 		requestOptions: {
-			location: { lat: () => 40.712776, lng: () => -74.005974 },
+			location: {
+				lat: () => userLocation.coords.latitude,
+				lng: () => userLocation.coords.longitude,
+			},
 			radius: 200 * 1000,
 		},
 	})
