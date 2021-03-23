@@ -70,7 +70,10 @@ function Map({ iNatResults, handleDrag, userLocation }) {
 
   const handleTaxaChange = async (e) => {
     setTaxa(e);
-    getNewBounds();
+    handleDrag({
+      taxa: e,
+      bounds: mapRef.current.getBounds(),
+    });
   };
 
   if (loadError) return "Error loading map";
