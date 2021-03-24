@@ -1,59 +1,80 @@
-import React, { useCallback, useState, useRef, useEffect } from 'react'
-import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps/api'
+import React, { useCallback, useState, useRef, useEffect } from "react";
+import {
+  GoogleMap,
+  useLoadScript,
+  Marker,
+  InfoWindow,
+} from "@react-google-maps/api";
 
-import mapStyles from './styles/mapStyles'
-import CenterUserButton from '../CenterUserButton'
-import PlacesSearch from '../PlacesSearch'
+import mapStyles from "./styles/mapStyles";
+import CenterUserButton from "../CenterUserButton";
+import PlacesSearch from "../PlacesSearch";
+import { taxaOptions } from "../../utils";
+
+import SpeciesSelect from "../SpeciesSelect";
 
 const mapContainerStyle = {
-	width: '100vw',
-	height: '100vh',
-}
+  width: "100vw",
+  height: "100vh",
+};
 const center = {
-	lat: 40.712776,
-	lng: -74.005974,
-}
+  lat: 40.712776,
+  lng: -74.005974,
+};
 const options = {
-	styles: mapStyles,
-	disableDefaultUI: true,
-	zoomControl: true,
-}
-const libraries = ['places'] //avoid unnecessary rerenders
+  styles: mapStyles,
+  disableDefaultUI: true,
+  zoomControl: true,
+};
+const libraries = ["places"]; //avoid unnecessary rerenders
 
 function Map({ iNatResults, handleDrag, userLocation }) {
-	const { isLoaded, loadError } = useLoadScript({
-		googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-		libraries,
-	})
-	const [selected, setSelected] = useState(null)
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    libraries,
+  });
+  const [selected, setSelected] = useState(null);
 
-	const mapRef = useRef()
-	const onMapLoad = useCallback((map) => {
-		mapRef.current = map
-	}, [])
+  const [taxa, setTaxa] = useState([taxaOptions[0]]);
 
-	const panTo = useCallback(({ lat, lng }) => {
-		mapRef.current.panTo({ lat, lng })
-		//mapRef.current.setZoom(14)
-	}, [])
+  const mapRef = useRef();
+  const onMapLoad = useCallback((map) => {
+    mapRef.current = map;
+  }, []);
 
-	const handleCenterUser = (pos) => {
-		const { latitude, longitude } = pos.coords
-		panTo({ lat: latitude, lng: longitude })
-		mapRef.current.setZoom(11)
-	}
+  const panTo = useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng });
+    //mapRef.current.setZoom(14)
+  }, []);
 
-	useEffect(() => {
-		const success = async (pos) => {
-			const { latitude, longitude } = await pos.coords
-			panTo({ lat: latitude, lng: longitude })
-		}
-		navigator.geolocation.getCurrentPosition(success)
-	}, [panTo])
+  const handleCenterUser = (pos) => {
+    const { latitude, longitude } = pos.coords;
+    panTo({ lat: latitude, lng: longitude });
+    mapRef.current.setZoom(11);
+  };
 
-	const getNewBounds = () => {
-		handleDrag(mapRef.current.getBounds())
-	}
+  useEffect(() => {
+    const success = async (pos) => {
+      const { latitude, longitude } = await pos.coords;
+      panTo({ lat: latitude, lng: longitude });
+    };
+    navigator.geolocation.getCurrentPosition(success);
+  }, [panTo]);
+
+  const getNewBounds = () => {
+    handleDrag({
+      taxa: taxa,
+      bounds: mapRef.current.getBounds(),
+    });
+  };
+
+  const handleTaxaChange = async (e) => {
+    setTaxa(e);
+    handleDrag({
+      taxa: e,
+      bounds: mapRef.current.getBounds(),
+    });
+  };
 
 	if (loadError) return 'Error loading map'
 	if (!isLoaded) return 'Loading map...'
@@ -147,4 +168,4 @@ function Map({ iNatResults, handleDrag, userLocation }) {
 	)
 }
 
-export default Map
+export default Map;
