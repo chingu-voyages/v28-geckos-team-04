@@ -1,9 +1,10 @@
 import React from "react";
+import Modal from "../UI/Modal";
 
 export default class Register extends React.Component {
   render() {
     return (
-      <div className="register-section">
+      <Modal>
         <form className="register-form">
           <label>Name</label>
           <input type="text" />
@@ -17,7 +18,7 @@ export default class Register extends React.Component {
           <input type="password" />
           <button>Submit</button>
         </form>
-      </div>
+      </Modal>
     );
   }
 }

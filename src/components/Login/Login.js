@@ -1,4 +1,5 @@
 import React from "react";
+import Modal from "../UI/Modal";
 import { Link } from "react-router-dom";
 
 export default class Login extends React.Component {
@@ -10,7 +11,7 @@ export default class Login extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
+      <Modal>
         <h1>Login to Your Account</h1>
         <div className="login-form">
           <form className="login-form">
@@ -27,7 +28,7 @@ export default class Login extends React.Component {
         <div className="create-account">
           <Link to="/register">Create an Account</Link>
         </div>
-      </React.Fragment>
+      </Modal>
     );
   }
 }
