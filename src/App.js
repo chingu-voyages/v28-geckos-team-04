@@ -7,6 +7,7 @@ import Register from "./components/Register/Register";
 import NavToggle from "./components/Navbar/NavToggle";
 import { Map } from "./components";
 import { getDataFromINat } from "./utils";
+import TokenService from "./services/TokenService";
 import "./App.css";
 
 function App() {
@@ -14,6 +15,11 @@ function App() {
 
   const [iNatResults, setINatResults] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
+  
+
+   const handleLogout = () => {
+     TokenService.handleLogout();
+   }
   
 
   const [showNav, setShowNav] = useState(false);
@@ -52,19 +58,6 @@ function App() {
     };
     navigator.geolocation.getCurrentPosition(success);
   }, []);
-
-  // const handleDrag = async (e) => {
-  //   const { lat: neLat, lng: neLng } = await e.getNorthEast().toJSON();
-  //   const { lat: swLat, lng: swLng } = await e.getSouthWest().toJSON();
-  //   const { results } = await getDataFromINat(
-  //     "Morchella",
-  //     neLat,
-  //     neLng,
-  //     swLat,
-  //     swLng
-  //   );
-  //   setINatResults(results);
-  // };
 
   return (
     <div className="App">

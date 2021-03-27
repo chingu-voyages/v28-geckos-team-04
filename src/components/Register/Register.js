@@ -4,6 +4,11 @@ import AuthAPIService from "../../services/AuthAPIService"
 export default class Register extends React.Component {
   state = {
     error: null,
+    user: {
+      username: "",
+      name: "",
+      user_id: "",
+    }
   };
   handleSubmit = (e) => {
     e.preventDefault();
@@ -21,6 +26,15 @@ export default class Register extends React.Component {
         .catch((res) => {
             this.setState({ error: res.error });
         });
+};
+setUser = (user) => {
+  this.setState({
+    user: {
+      user_id: user.id,
+      username: user.username,
+      name: user.name
+    },
+  });
 };
   render() {
     return (
