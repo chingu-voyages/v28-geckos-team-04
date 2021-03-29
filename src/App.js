@@ -37,7 +37,6 @@ function App() {
 		const { lat: swLat, lng: swLng } = await e.getSouthWest().toJSON()
 		const { results } = await getDataFromINat('Morchella', neLat, neLng, swLat, swLng)
 		setINatResults(results)
-		console.log(results)
 	}
 
 	return (

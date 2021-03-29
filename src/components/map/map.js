@@ -125,13 +125,15 @@ function Map({ iNatResults, handleDrag, userLocation }) {
 							</p>
 							<p>Found by: {selected.user.login}</p>
 
-							<img
-								src={selected.photos[0].url.replace(
-									'square',
-									'medium'
-								)}
-								alt={`morel found by user ${selected.user.login}`}
-							/>
+							{selected.photos[0].url && (
+								<img
+									src={selected.photos[0].url.replace(
+										'square',
+										'medium'
+									)}
+									alt={`morel found by user ${selected.user.login}`}
+								/>
+							)}
 							<br></br>
 							<a
 								href={`http://www.google.com/maps/place/${selected.geojson.coordinates[1]},${selected.geojson.coordinates[0]}`}
