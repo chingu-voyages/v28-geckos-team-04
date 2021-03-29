@@ -4,6 +4,9 @@ import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps
 import mapStyles from './styles/mapStyles'
 import CenterUserButton from '../CenterUserButton'
 import PlacesSearch from '../PlacesSearch'
+import { taxaOptions } from '../../utils'
+
+import SpeciesSelect from '../SpeciesSelect'
 
 const mapContainerStyle = {
 	width: '100vw',
@@ -26,6 +29,8 @@ function Map({ iNatResults, handleDrag, userLocation }) {
 		libraries,
 	})
 	const [selected, setSelected] = useState(null)
+
+	const [taxa, setTaxa] = useState([taxaOptions[0]])
 
 	const mapRef = useRef()
 	const onMapLoad = useCallback((map) => {
@@ -52,13 +57,25 @@ function Map({ iNatResults, handleDrag, userLocation }) {
 	}, [panTo])
 
 	const getNewBounds = () => {
-		handleDrag(mapRef.current.getBounds())
+		handleDrag({
+			taxa: taxa,
+			bounds: mapRef.current.getBounds(),
+		})
+	}
+
+	const handleTaxaChange = async (e) => {
+		setTaxa(e)
+		handleDrag({
+			taxa: e,
+			bounds: mapRef.current.getBounds(),
+		})
 	}
 
 	if (loadError) return 'Error loading map'
 	if (!isLoaded) return 'Loading map...'
 	return (
 		<div>
+			<SpeciesSelect value={taxa} handleTaxaChange={handleTaxaChange} />
 			<CenterUserButton
 				userLocation={userLocation}
 				handleHomeButton={handleCenterUser}
@@ -125,15 +142,13 @@ function Map({ iNatResults, handleDrag, userLocation }) {
 							</p>
 							<p>Found by: {selected.user.login}</p>
 
-							{selected.photos[0].url && (
-								<img
-									src={selected.photos[0].url.replace(
-										'square',
-										'medium'
-									)}
-									alt={`morel found by user ${selected.user.login}`}
-								/>
-							)}
+							<img
+								src={selected.photos[0].url.replace(
+									'square',
+									'medium'
+								)}
+								alt={`morel found by user ${selected.user.login}`}
+							/>
 							<br></br>
 							<a
 								href={`http://www.google.com/maps/place/${selected.geojson.coordinates[1]},${selected.geojson.coordinates[0]}`}
