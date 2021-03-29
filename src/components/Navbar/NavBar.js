@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import close from '../../assets/close.svg'
+import logo from '../../assets/logo.svg'
 
 export default class NavBar extends React.Component {
 	handleLogout = (e) => {
@@ -28,16 +29,32 @@ export default class NavBar extends React.Component {
 								</button>
 							</div>
 							<div className="nav-logo">
-								<h1>Mycolocate</h1>
+								<img src={logo} alt="logo" />
 							</div>
 							<div className="nav-links">
-								<Link to="/">Home</Link>
-								<Link to="/about">About</Link>
-								<Link to="/login">
-									<button>Login</button>
+								<Link
+									to="/about"
+									onClick={this.props.handleNavToggle}
+								>
+									<p>
+										About<span className="arrow">→</span>
+									</p>
 								</Link>
-								<Link to="/register">
-									<button>Register</button>
+								<Link
+									to="/login"
+									onClick={this.props.handleNavToggle}
+								>
+									<p>
+										Log in<span className="arrow">→</span>
+									</p>
+								</Link>
+								<Link
+									to="/register"
+									onClick={this.props.handleNavToggle}
+								>
+									<p>
+										Sign up<span className="arrow">→</span>
+									</p>
 								</Link>
 							</div>
 						</div>

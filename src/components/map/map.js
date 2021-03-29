@@ -96,6 +96,7 @@ function Map({ iNatResults, handleDrag, userLocation }) {
 							lat: userLocation.coords.latitude,
 							lng: userLocation.coords.longitude,
 						}}
+						title="You are here!"
 					/>
 				)}
 				{iNatResults.map((marker) => (
