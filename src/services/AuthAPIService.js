@@ -9,7 +9,7 @@ const AuthAPIService = {
       headers: {
         'content-type': 'application/json',
       },
-      body:JSON.stringify(user),
+      body: JSON.stringify(user),
     })
     .then(res => 
       (!res.ok) 
@@ -23,7 +23,7 @@ postLogin({username, password}) {
       headers: {
         'content-type': 'application/json',
       },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({username, password}),
     })
     .then(res => 
       (!res.ok) 
@@ -40,7 +40,7 @@ postLogin({username, password}) {
       })
 },
 postRefreshToken() {
-  return fetch(`${Config.REACT_APP_API_BASE_URL}/auth/refresh`, {
+  return fetch(`${Config.REACT_APP_API_BASE_URL}auth/refresh`, {
     method: 'POST',
     headers: {
       'authorization': `Bearer ${TokenService.getAuthToken()}`,

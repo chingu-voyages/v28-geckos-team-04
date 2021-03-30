@@ -13,42 +13,74 @@ export default class NavBar extends React.Component {
     render(){
         return(
             <nav>
-                {!TokenService.hasAuthToken() ? (
-             <>
-              <div className="nav-home">
-                  <div className="nav-logo">
+                {TokenService.hasAuthToken() ? (
+                    <div className="nav-home">
+                    <span>
+                        <img src={'/mushroom.png'} alt="mushroom img"  className="mush-img" />
+                    </span>
+                    <h1>
+                       <Link to="/">Mushroom Finder</Link>
+                    </h1>
+
+                </div>
+            ):(
+                <>
+                  <div className="nav-links">
+                      <span>
+                      <img src={'/mushroom.png'} alt="mushroom img"  className="nav-logo" />
+                      </span>
                       <h1>
-                          <Link to="/">Mushroom Finder</Link>
+                           <Link to="/">Mushroom Finder</Link>
                       </h1>
 
                   </div>
-                  <div className="nav-links">
-                      <Link to ="/">Home</Link>
-                      <Link to ="/about">About</Link>
-                      <Link to="/login">
-                          <button>Login</button>
-                      </Link>
-                      <Link to="/register">
-                          <button>Register</button>
-                      </Link>
-                  </div>
-                </div>
-             </>
-            ) : (
-              <div className="nav-home">
-                  <h1>
-                      <Link to="/">Mushroom Finder</Link>
-                  </h1>
-                 <div className="nav-links">
-                     <Link to = "/">Home</Link>
-                    <button onClick={(e) => this.handleLogout(e)}>Log Out</button>
-                 </div>
-                </div>
-
+                </>
 
             )}
+            <div className="nav-home">
+                {TokenService.hasAuthToken() ? (
+                    <Link to="/">Home</Link>
 
-            </nav>
-        );
+                ):(
+                    <>
+                      <Link to="/">Home</Link>
+                      <Link to="/about">About</Link>
+                    </>
+
+                )}
+
+                {TokenService.hasAuthToken() ? (
+                    <button
+                       type="submit"
+                       onClick={(e) => this.handleLogout(e)}
+                    >
+                        Log out
+                    </button>
+                ):(
+                    <>
+                      <Link to="/register">
+                        <button className="register-button" type="submit">
+                          Register
+                        </button>
+                       </Link>
+                      <Link to="/login">
+                        <button type="submit" className="login-button">
+                            Login
+                        </button>
+                       </Link>
+                    </>
+                )}
+
+            </div>
+
+                
+          </nav>
+
+        )
     }
 }
+            
+              
+        
+    
+

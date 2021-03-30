@@ -1,59 +1,74 @@
-import React from "react";
-import AuthAPIService from "../../services/AuthAPIService"
+import React, { useState } from "react";
+import { useHistory } from "react-router";
+import AuthAPIService from "../../services/AuthAPIService";
 
-export default class Register extends React.Component {
-  state = {
-    error: null,
-    user: {
-      username: "",
-      name: "",
-      user_id: "",
-    }
-  };
-  handleSubmit = (e) => {
+const Register = () => {
+  const history = useHistory();
+  const [error, setError] = useState(null);
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  // const [user, setUser] = useState({ username: "", name: "", user_id: "" });
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, username, password, confirmPassword } = e.target;
-    this.setState({ error: null });
+    setError(null);
     AuthAPIService.postUser({
-        name: name.value,
-        username: username.value,
-        password: password.value,
-        confirmPassword: confirmPassword.value,
+      name,
+      username,
+      password,
+      confirmPassword
     })
-        .then((user) => {
-            this.props.history.push("/login");
-        })
-        .catch((res) => {
-            this.setState({ error: res.error });
-        });
+      .then((user) => {
+        history.push("/login");
+      })
+      .catch((res) => {
+        this.setState({ error: res.error });
+      });
+  };
+
+  return (
+    <div className="register-section">
+      <form className="register-form" onSubmit={handleSubmit}>
+        {error && <p className="register-error">{error}</p>}
+        <label>Name</label>
+        <input
+          type="text"
+          name="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+        <label>User Name</label>
+        <input
+          type="text"
+          name="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        <label>Password</label>
+        <input
+          type="password"
+          name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <label>Confirm Password</label>
+        <input
+          type="password"
+          name="confirmPassword"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+        />
+        <button type="submit">Register</button>
+      </form>
+    </div>
+  );
 };
-setUser = (user) => {
-  this.setState({
-    user: {
-      user_id: user.id,
-      username: user.username,
-      name: user.name
-    },
-  });
-};
-  render() {
-    return (
-      <div className="register-section">
-        <form className="register-form" onSubmit={this.handleSubmit}>
-          {this.state.error && (
-            <p className="register-error">{this.state.error}</p>
-          )}
-          <label>Name</label>
-          <input type="text" name="name" required/>
-          <label>User Name</label>
-          <input type="text" name="username" required/>
-          <label>Password</label>
-          <input type="password" name="password" required/>
-          <label>Confirm Password</label>
-          <input type="password" name="confiermPassword" required/>
-          <button type="submit">Register</button>
-        </form>
-      </div>
-    );
-  }
-}
+
+export default Register;

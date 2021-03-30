@@ -15,11 +15,8 @@ function App() {
 
   const [iNatResults, setINatResults] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
-  
+  const [loggedOut, setLoggedOut] = useState(false)
 
-   const handleLogout = () => {
-     TokenService.handleLogout();
-   }
   
 
   const [showNav, setShowNav] = useState(false);
@@ -31,6 +28,13 @@ function App() {
   const handleNavToggle = () => {
     setShowNav((prevValue) => !prevValue);
   };
+
+  const handleLogout = () => {
+    TokenService.clearAuthToken();
+    setLoggedOut(true);
+  };
+
+  
 
   useEffect(() => {
     const success = (pos) => {
@@ -64,7 +68,11 @@ function App() {
       <Route
         path="/"
         render={() => (
-          <NavBar handleNavToggle={handleNavToggle} showNav={showNav} />
+          <NavBar
+            handleNavToggle={handleNavToggle}
+            showNav={showNav}
+            handleLogout={handleLogout}
+          />
         )}
       />
       <Route
