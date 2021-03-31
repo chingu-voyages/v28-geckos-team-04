@@ -17,3 +17,8 @@ This app shows the locations of previously found morel mushrooms (genus _Morchel
 
 - iNaturalist API
 - react-google-maps/api
+
+## Deployments
+
+- Production branch: https://dreamy-keller-177753.netlify.app/
+- Develop branch: https://shroomr.netlify.app/

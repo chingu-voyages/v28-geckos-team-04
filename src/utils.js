@@ -1,16 +1,53 @@
-//URI to query iNaturalist API for Fungi in given area
-//https://api.inaturalist.org/v1/observations?taxon_name=GENUS/SPECIES_NAME&iconic_taxa=Fungi&lat=LATITUDE_COORDINATE_HERE&lng=LONGITUDE_COORDINATE_HERE-&radius=RADIUS_HERE&order=desc&order_by=created_at
-//
-//i.e.: Morels (Morchella) near Tim
-//https://api.inaturalist.org/v1/observations?taxon_name=Morchella&iconic_taxa=Fungi&lat=39.96238554917605&lng=-75.27935028076173&radius=5&order=desc&order_by=created_at
-
-// 20210308105806
-// https://api.inaturalist.org/v1/observations?taxon_name=Morchella&iconic_taxa=Fungi&lat=39.96238554917605&lng=-75.27935028076173&radius=5&order=desc&order_by=created_at
-
-export const getDataFromINat = async (taxa, latitude, longitude, radius) => {
+export const getDataFromINat = async (
+  taxa,
+  neLat,
+  neLng,
+  swLat,
+  swLng,
+  results
+) => {
   const res = await fetch(
-    `https://api.inaturalist.org/v1/observations?taxon_name=${taxa}&iconic_taxa=Fungi&lat=${latitude}&lng=${longitude}&radius=${radius}&order=desc&order_by=created_at`
+    `https://api.inaturalist.org/v1/observations?taxon_name=${taxa}&iconic_taxa=Fungi&nelat=${neLat}&nelng=${neLng}&swlat=${swLat}&swlng=${swLng}&per_page=${results}&order=desc&order_by=created_at`
   );
   const data = await res.json();
   return data;
+};
+
+export const taxaOptions = [
+  {
+    value: "Morchella",
+    label: "Morchella",
+  },
+  {
+    value: "Pleurotus",
+    label: "Pleurotus",
+  },
+  {
+    value: "Cantharellus",
+    label: "Cantharellus",
+  },
+  {
+    value: "Laetiporus",
+    label: "Laetiporus",
+  },
+];
+
+export const selectorStyles = {
+  menu: (provided, state) => ({
+    ...provided,
+    width: "400px",
+    marginTop: "50px",
+    position: "fixed",
+    left: "-400px",
+    top: "25vh",
+    zIndex: "2",
+  }),
+  control: (provided, state) => ({
+    ...provided,
+    width: "400px",
+    position: "fixed",
+    left: "-400px",
+    top: "25vh",
+    zIndex: "2",
+  }),
 };
