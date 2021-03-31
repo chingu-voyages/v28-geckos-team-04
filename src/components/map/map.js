@@ -4,6 +4,9 @@ import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps
 import mapStyles from './styles/mapStyles'
 import CenterUserButton from '../CenterUserButton'
 import PlacesSearch from '../PlacesSearch'
+import { taxaOptions } from '../../utils'
+
+import SpeciesSelect from '../SpeciesSelect'
 
 const mapContainerStyle = {
 	width: '100vw',
@@ -26,6 +29,8 @@ function Map({ iNatResults, handleDrag, userLocation }) {
 		libraries,
 	})
 	const [selected, setSelected] = useState(null)
+
+	const [taxa, setTaxa] = useState([taxaOptions[0]])
 
 	const mapRef = useRef()
 	const onMapLoad = useCallback((map) => {
@@ -52,18 +57,30 @@ function Map({ iNatResults, handleDrag, userLocation }) {
 	}, [panTo])
 
 	const getNewBounds = () => {
-		handleDrag(mapRef.current.getBounds())
+		handleDrag({
+			taxa: taxa,
+			bounds: mapRef.current.getBounds(),
+		})
+	}
+
+	const handleTaxaChange = async (e) => {
+		setTaxa(e)
+		handleDrag({
+			taxa: e,
+			bounds: mapRef.current.getBounds(),
+		})
 	}
 
 	if (loadError) return 'Error loading map'
 	if (!isLoaded) return 'Loading map...'
 	return (
 		<div>
+			<SpeciesSelect value={taxa} handleTaxaChange={handleTaxaChange} />
 			<CenterUserButton
 				userLocation={userLocation}
 				handleHomeButton={handleCenterUser}
 			/>
-			<PlacesSearch panTo={panTo} />
+			<PlacesSearch panTo={panTo} userLocation={userLocation} />
 			<GoogleMap
 				mapContainerStyle={mapContainerStyle}
 				zoom={11}
@@ -79,6 +96,7 @@ function Map({ iNatResults, handleDrag, userLocation }) {
 							lat: userLocation.coords.latitude,
 							lng: userLocation.coords.longitude,
 						}}
+						title="You are here!"
 					/>
 				)}
 				{iNatResults.map((marker) => (
@@ -114,10 +132,31 @@ function Map({ iNatResults, handleDrag, userLocation }) {
 						<div>
 							<h2>{selected.taxon.name}</h2>
 							<p>
-								found at latitude:{selected.geojson.coordinates[1]}{' '}
+								Found at latitude:{selected.geojson.coordinates[1]}{' '}
 								longitude:
 								{selected.geojson.coordinates[0]}
 							</p>
+							<p>
+								Observed on: {selected.observed_on_details.month}/
+								{selected.observed_on_details.day}/
+								{selected.observed_on_details.year}
+							</p>
+							<p>Found by: {selected.user.login}</p>
+
+							<img
+								src={selected.photos[0].url.replace(
+									'square',
+									'medium'
+								)}
+								alt={`morel found by user ${selected.user.login}`}
+							/>
+							<br></br>
+							<a
+								href={`http://www.google.com/maps/place/${selected.geojson.coordinates[1]},${selected.geojson.coordinates[0]}`}
+								target={`_blank`}
+							>
+								View on Google Maps
+							</a>
 						</div>
 					</InfoWindow>
 				)}

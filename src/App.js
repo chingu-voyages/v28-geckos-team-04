@@ -11,7 +11,7 @@ import TokenService from "./services/TokenService";
 import "./App.css";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   const [iNatResults, setINatResults] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
@@ -19,15 +19,15 @@ function App() {
 
   
 
-  const [showNav, setShowNav] = useState(false);
+	const [showNav, setShowNav] = useState(false)
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
+	const handleLogin = () => {
+		setIsLoggedIn(true)
+	}
 
-  const handleNavToggle = () => {
-    setShowNav((prevValue) => !prevValue);
-  };
+	const handleNavToggle = () => {
+		setShowNav((prevValue) => !prevValue)
+	}
 
   const handleLogout = () => {
     TokenService.clearAuthToken();
@@ -43,18 +43,25 @@ function App() {
     navigator.geolocation.getCurrentPosition(success);
   }, []);
 
-  const handleDrag = async (e) => {
-    const { lat: neLat, lng: neLng } = await e.getNorthEast().toJSON();
-    const { lat: swLat, lng: swLng } = await e.getSouthWest().toJSON();
-    const { results } = await getDataFromINat(
-      "Morchella",
-      neLat,
-      neLng,
-      swLat,
-      swLng
-    );
-    setINatResults(results);
-  };
+	const handleDrag = async ({ taxa, bounds }) => {
+		setINatResults([])
+		console.log(taxa)
+		const { lat: neLat, lng: neLng } = await bounds.getNorthEast().toJSON()
+		const { lat: swLat, lng: swLng } = await bounds.getSouthWest().toJSON()
+		if (taxa.length) {
+			taxa.forEach(async (taxon) => {
+				const { results } = await getDataFromINat(
+					taxon.value,
+					neLat,
+					neLng,
+					swLat,
+					swLng,
+					Math.floor(100 / taxa.length)
+				)
+				setINatResults((prevValue) => [...prevValue, ...results])
+			})
+		}
+	}
 
   useEffect(() => {
     const success = (pos) => {

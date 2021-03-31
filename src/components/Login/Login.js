@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
+import Modal from "../UI/Modal";
 import AuthAPIService from "../../services/AuthAPIService";
 import TokenService from "../../services/TokenService";
 import { Link, useHistory } from "react-router-dom";
-import Config  from "../../config/Config";
+//import Config  from "../../config/Config";
 
 const Login = () => {
   const [username, setUsername] = useState(" ");
@@ -28,27 +29,10 @@ const Login = () => {
       });
   };
 
-  // const componentDidMount = () => {
-  //   if(TokenService.hasAuthToken()) {
-  //     getData();
-  //   }
-  // }
-  // getData = () => {
-  //   fetch(`${Config.REACT_APP_API_BASE_URL}/users`, {
-  //     headers: {
-  //       "content-type": "application/json",
-  //       Authorization: `Bearer ${TokenService.getAuthToken()}`,
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((user) => {
-  //       setUsername(user);
-  //     });
-  // }
-
-  return (
-    <React.Fragment>
-      <h1>Login to Your Account</h1>
+  
+    return (
+      <Modal>
+        <h1>Login to Your Account</h1>
       <div className="login-form">
         <form className="login-form" onSubmit={handleLogin}>
           {error && <p className="error">{error}</p>}
@@ -72,9 +56,9 @@ const Login = () => {
       </div>
       <div className="create-account">
         <Link to="/register">Create an Account</Link>
-      </div>
-    </React.Fragment>
-  );
-};
+        </div>
+      </Modal>
+    );
+}
 
 export default Login;
