@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import close from "../../assets/close.svg";
 import logo from "../../assets/logo.svg";
+import arrow from "../../assets/arrow.svg";
 import TokenService from "../../services/TokenService";
 
 export default class NavBar extends React.Component {
@@ -31,20 +32,29 @@ export default class NavBar extends React.Component {
                 <img src={logo} alt="logo" />
               </div>
               <div className="nav-links">
-                <Link to="/about" onClick={this.props.handleNavToggle}>
-                  <p>
-                    About<span className="arrow">→</span>
-                  </p>
+                <Link
+                  to="/about"
+                  onClick={this.props.handleNavToggle}
+                  className="nav-link-container"
+                >
+                  <p>About</p>
+                  <img src={arrow} alt="arrow" className="arrow" />
                 </Link>
-                <Link to="/login" onClick={this.props.handleNavToggle}>
-                  <p>
-                    Log in<span className="arrow">→</span>
-                  </p>
+                <Link
+                  to="/login"
+                  onClick={this.props.handleNavToggle}
+                  className="nav-link-container"
+                >
+                  <p>Log in</p>
+                  <img src={arrow} alt="arrow" className="arrow" />
                 </Link>
-                <Link to="/register" onClick={this.props.handleNavToggle}>
-                  <p>
-                    Sign up<span className="arrow">→</span>
-                  </p>
+                <Link
+                  to="/register"
+                  onClick={this.props.handleNavToggle}
+                  className="nav-link-container"
+                >
+                  <p>Sign up</p>
+                  <img src={arrow} alt="arrow" className="arrow" />
                 </Link>
               </div>
             </div>
