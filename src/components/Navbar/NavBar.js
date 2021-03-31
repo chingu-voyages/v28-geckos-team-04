@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import close from '../../assets/close.svg'
 import logo from '../../assets/logo.svg'
+import arrow from '../../assets/arrow.svg'
 
 export default class NavBar extends React.Component {
 	handleLogout = (e) => {
@@ -35,26 +36,38 @@ export default class NavBar extends React.Component {
 								<Link
 									to="/about"
 									onClick={this.props.handleNavToggle}
+									className="nav-link-container"
 								>
-									<p>
-										About<span className="arrow">→</span>
-									</p>
+									<p>About</p>
+									<img
+										src={arrow}
+										alt="arrow"
+										className="arrow"
+									/>
 								</Link>
 								<Link
 									to="/login"
 									onClick={this.props.handleNavToggle}
+									className="nav-link-container"
 								>
-									<p>
-										Log in<span className="arrow">→</span>
-									</p>
+									<p>Log in</p>
+									<img
+										src={arrow}
+										alt="arrow"
+										className="arrow"
+									/>
 								</Link>
 								<Link
 									to="/register"
 									onClick={this.props.handleNavToggle}
+									className="nav-link-container"
 								>
-									<p>
-										Sign up<span className="arrow">→</span>
-									</p>
+									<p>Sign up</p>
+									<img
+										src={arrow}
+										alt="arrow"
+										className="arrow"
+									/>
 								</Link>
 							</div>
 						</div>
