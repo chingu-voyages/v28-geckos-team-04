@@ -25,7 +25,7 @@ const Register = () => {
         history.push("/login");
       })
       .catch((res) => {
-        this.setState({ error: res.error });
+        setError(res.error);
       });
   };
 

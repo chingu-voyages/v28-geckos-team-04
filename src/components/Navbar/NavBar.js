@@ -14,7 +14,7 @@ export default class NavBar extends React.Component {
 	render() {
 		return (
 			<nav>
-				{!TokenService.hasAuthToken() ? (
+				{TokenService.hasAuthToken() ? (
 					<>
 						<div
 							className={`nav-home ${
