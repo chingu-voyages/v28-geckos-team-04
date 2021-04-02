@@ -93,11 +93,11 @@ function App() {
       <Route exact path="/about" component={About} />
       <main>
         <section className="main">
-          <NavToggle handleNavToggle={handleNavToggle} />
           <Map
             userLocation={userLocation}
             iNatResults={iNatResults}
             handleDrag={handleDrag}
+            handleNavToggle={handleNavToggle}
           />
         </section>
       </main>

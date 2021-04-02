@@ -7,11 +7,8 @@ import {
 } from "@react-google-maps/api";
 
 import mapStyles from "./styles/mapStyles";
-import CenterUserButton from "../CenterUserButton";
-import PlacesSearch from "../PlacesSearch";
+import ButtonContainer from "../UI/ButtonContainer";
 import { taxaOptions } from "../../utils";
-
-import SpeciesSelect from "../SpeciesSelect";
 import SearchBar from "../UI/SearchBar";
 
 const mapContainerStyle = {
@@ -29,7 +26,7 @@ const options = {
 };
 const libraries = ["places"]; //avoid unnecessary rerenders
 
-function Map({ iNatResults, handleDrag, userLocation }) {
+function Map({ iNatResults, handleDrag, userLocation, handleNavToggle }) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
@@ -88,9 +85,10 @@ function Map({ iNatResults, handleDrag, userLocation }) {
         userLocation={userLocation}
       />
 
-      <CenterUserButton
+      <ButtonContainer
+        handleNavToggle={handleNavToggle}
         userLocation={userLocation}
-        handleHomeButton={handleCenterUser}
+        handleCenterUser={handleCenterUser}
       />
 
       <GoogleMap
