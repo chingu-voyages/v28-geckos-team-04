@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Modal from "../UI/Modal";
 import AuthAPIService from "../../services/AuthAPIService";
 import TokenService from "../../services/TokenService";
@@ -17,11 +17,13 @@ const Login = () => {
     e.preventDefault();
     const { username, password } = e.target;
     setError(null);
-    const user = { username: username.value, password: password.value};
+    const user = { username: username.value, password: password.value };
     AuthAPIService.postLogin(user)
       .then((loginResponse) => {
-        const {user_id, sub} = TokenService.readJwtToken(loginResponse.authToken);
-        setUsername({user_id, sub})
+        const { user_id, sub } = TokenService.readJwtToken(
+          loginResponse.authToken
+        );
+        setUsername({ user_id, sub });
         history.push("/home");
       })
       .catch((res) => {
@@ -29,16 +31,16 @@ const Login = () => {
       });
   };
 
-  
-    return (
-      <Modal>
-        <h1>Login to Your Account</h1>
+  return (
+    <Modal>
+      <h1>Login to Your Account</h1>
       <div className="login-form">
         <form className="login-form" onSubmit={handleLogin}>
           {error && <p className="error">{error}</p>}
           <div className="login-section">
             <label className="email-label">Username</label>
             <input
+              value={username}
               type="text"
               name="username"
               onChange={(e) => setUsername(e.target.value)}
@@ -46,6 +48,7 @@ const Login = () => {
 
             <label className="password-label">Password</label>
             <input
+              value={password}
               type="password"
               name="password"
               onChange={(e) => setPassword(e.target.value)}
@@ -56,9 +59,9 @@ const Login = () => {
       </div>
       <div className="create-account">
         <Link to="/register">Create an Account</Link>
-        </div>
-      </Modal>
-    );
-}
+      </div>
+    </Modal>
+  );
+};
 
 export default Login;
