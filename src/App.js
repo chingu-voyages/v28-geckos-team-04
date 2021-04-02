@@ -7,23 +7,34 @@ import Register from "./components/Register/Register";
 import NavToggle from "./components/Navbar/NavToggle";
 import { Map } from "./components";
 import { getDataFromINat } from "./utils";
+import TokenService from "./services/TokenService";
 import "./App.css";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   const [iNatResults, setINatResults] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
+  const [loggedOut, setLoggedOut] = useState(false)
 
-  const [showNav, setShowNav] = useState(false);
+  
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
+	const [showNav, setShowNav] = useState(false)
+
+	const handleLogin = () => {
+		setIsLoggedIn(true)
+	}
+
+	const handleNavToggle = () => {
+		setShowNav((prevValue) => !prevValue)
+	}
+
+  const handleLogout = () => {
+    TokenService.clearAuthToken();
+    setLoggedOut(true);
   };
 
-  const handleNavToggle = () => {
-    setShowNav((prevValue) => !prevValue);
-  };
+  
 
   useEffect(() => {
     const success = (pos) => {
@@ -32,32 +43,43 @@ function App() {
     navigator.geolocation.getCurrentPosition(success);
   }, []);
 
-  const handleDrag = async ({ taxa, bounds }) => {
-    setINatResults([]);
-    console.log(taxa);
-    const { lat: neLat, lng: neLng } = await bounds.getNorthEast().toJSON();
-    const { lat: swLat, lng: swLng } = await bounds.getSouthWest().toJSON();
-    if (taxa.length) {
-      taxa.forEach(async (taxon) => {
-        const { results } = await getDataFromINat(
-          taxon.value,
-          neLat,
-          neLng,
-          swLat,
-          swLng,
-          Math.floor(100 / taxa.length)
-        );
-        setINatResults((prevValue) => [...prevValue, ...results]);
-      });
-    }
-  };
+	const handleDrag = async ({ taxa, bounds }) => {
+		setINatResults([])
+		console.log(taxa)
+		const { lat: neLat, lng: neLng } = await bounds.getNorthEast().toJSON()
+		const { lat: swLat, lng: swLng } = await bounds.getSouthWest().toJSON()
+		if (taxa.length) {
+			taxa.forEach(async (taxon) => {
+				const { results } = await getDataFromINat(
+					taxon.value,
+					neLat,
+					neLng,
+					swLat,
+					swLng,
+					Math.floor(100 / taxa.length)
+				)
+				setINatResults((prevValue) => [...prevValue, ...results])
+			})
+		}
+	}
+
+  useEffect(() => {
+    const success = (pos) => {
+      setUserLocation(pos);
+    };
+    navigator.geolocation.getCurrentPosition(success);
+  }, []);
 
   return (
     <div className="App">
       <Route
         path="/"
         render={() => (
-          <NavBar handleNavToggle={handleNavToggle} showNav={showNav} />
+          <NavBar
+            handleNavToggle={handleNavToggle}
+            showNav={showNav}
+            handleLogout={handleLogout}
+          />
         )}
       />
       <Route
@@ -84,3 +106,4 @@ function App() {
 }
 
 export default App;
+
