@@ -6,14 +6,14 @@ const _TEN_SECONDS_IN_MS = 10000;
 
 const TokenService = {
   saveAuthToken(token) {
-    window.localStorage.setItem(process.env.REACT_APP_TOKEN_KEY, token);
+    window.localStorage.setItem(process.env.TOKEN_KEY, token);
   },
   getAuthToken() {
-    return window.localStorage.getItem(process.env.REACT_APP_TOKEN_KEY);
+    return window.localStorage.getItem(process.env.TOKEN_KEY);
   },
   clearAuthToken() {
     console.info("clearing the auth token");
-    window.localStorage.removeItem(process.env.REACT_APP_TOKEN_KEY);
+    window.localStorage.removeItem(process.env.TOKEN_KEY);
   },
   hasAuthToken() {
     return !!TokenService.getAuthToken();
