@@ -4,7 +4,7 @@ import IdleService from './IdleService'
 
 const AuthApiService = {
   postUser(user) {
-    return fetch(`${Config.REACT_APP_API_BASE_URL}/users`, {
+    return fetch(`${Config.RREACT_APP_API_BASE_URL}/users`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
