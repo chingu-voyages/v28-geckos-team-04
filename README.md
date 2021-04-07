@@ -20,5 +20,5 @@ This app shows the locations of previously found morel mushrooms (genus _Morchel
 
 ## Deployments
 
-- Production branch: https://dreamy-keller-177753.netlify.app/
+- Production branch: https://mycolocate.netlify.app/
 - Develop branch: https://shroomr.netlify.app/
