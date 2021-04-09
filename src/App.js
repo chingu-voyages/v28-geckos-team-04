@@ -4,7 +4,6 @@ import NavBar from "./components/Navbar/NavBar";
 import Login from "./components/Login/Login";
 import About from "./components/About/About";
 import Register from "./components/Register/Register";
-import NavToggle from "./components/Navbar/NavToggle";
 import { Map } from "./components";
 import { getDataFromINat } from "./utils";
 import TokenService from "./services/TokenService";
