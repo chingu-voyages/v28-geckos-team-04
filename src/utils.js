@@ -42,7 +42,7 @@ export const selectorStyles = {
     left: "50%",
     top: "60px",
     transform: "translateX(-50%)",
-    zIndex: "2",
+    zIndex: "10",
   }),
   control: (provided, state) => ({
     ...provided,
@@ -52,6 +52,6 @@ export const selectorStyles = {
     left: "50%",
     top: "60px",
     transform: "translateX(-50%)",
-    zIndex: "2",
+    zIndex: "10",
   }),
 };
