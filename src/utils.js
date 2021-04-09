@@ -16,38 +16,42 @@ export const getDataFromINat = async (
 export const taxaOptions = [
   {
     value: "Morchella",
-    label: "Morchella",
+    label: "Morels (Morchella sp.)",
   },
   {
     value: "Pleurotus",
-    label: "Pleurotus",
+    label: "Oyster Mushrooms (Pleurotus sp.)",
   },
   {
     value: "Cantharellus",
-    label: "Cantharellus",
+    label: "Chanterelles (Cantharellus sp.)",
   },
   {
     value: "Laetiporus",
-    label: "Laetiporus",
+    label: "Chicken of the Woods (Laetiporus sp.)",
   },
 ];
 
 export const selectorStyles = {
   menu: (provided, state) => ({
     ...provided,
-    width: "400px",
-    marginTop: "50px",
+    width: "100%",
+    maxWidth: "400px",
+    marginTop: "40px",
     position: "fixed",
-    left: "-400px",
-    top: "25vh",
-    zIndex: "2",
+    left: "50%",
+    top: "60px",
+    transform: "translateX(-50%)",
+    zIndex: "10",
   }),
   control: (provided, state) => ({
     ...provided,
-    width: "400px",
+    width: "100%",
+    maxWidth: "400px",
     position: "fixed",
-    left: "-400px",
-    top: "25vh",
-    zIndex: "2",
+    left: "50%",
+    top: "60px",
+    transform: "translateX(-50%)",
+    zIndex: "10",
   }),
 };
