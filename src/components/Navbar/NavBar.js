@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import close from "../../assets/close.png";
+import close from "../../assets/close.svg";
+import logo from "../../assets/logo.svg";
+import TokenService from "../../services/TokenService";
 
 export default class NavBar extends React.Component {
   handleLogout = (e) => {
@@ -12,30 +14,37 @@ export default class NavBar extends React.Component {
   render() {
     return (
       <nav>
-        {!this.props.isLoggedIn ? (
+        {!TokenService.hasAuthToken() ? (
           <>
             <div
               className={`nav-home ${this.props.showNav ? "show-nav" : null}`}
             >
-              <button
-                onClick={this.props.handleNavToggle}
-                className="close-nav"
-              >
-                <img src={close} alt="" />
-              </button>
+              <div className="nav-close-container">
+                <button
+                  onClick={this.props.handleNavToggle}
+                  className="close-nav"
+                >
+                  <img src={close} alt="" />
+                </button>
+              </div>
               <div className="nav-logo">
-                <h1>
-                  <Link to="/">Mushroom Finder</Link>
-                </h1>
+                <img src={logo} alt="logo" />
               </div>
               <div className="nav-links">
-                <Link to="/">Home</Link>
-                <Link to="/about">About</Link>
-                <Link to="/login">
-                  <button>Login</button>
+                <Link to="/about" onClick={this.props.handleNavToggle}>
+                  <p>
+                    About<span className="arrow">→</span>
+                  </p>
                 </Link>
-                <Link to="/register">
-                  <button>Register</button>
+                <Link to="/login" onClick={this.props.handleNavToggle}>
+                  <p>
+                    Log in<span className="arrow">→</span>
+                  </p>
+                </Link>
+                <Link to="/register" onClick={this.props.handleNavToggle}>
+                  <p>
+                    Sign up<span className="arrow">→</span>
+                  </p>
                 </Link>
               </div>
             </div>

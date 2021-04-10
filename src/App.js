@@ -4,9 +4,9 @@ import NavBar from "./components/Navbar/NavBar";
 import Login from "./components/Login/Login";
 import About from "./components/About/About";
 import Register from "./components/Register/Register";
-import NavToggle from "./components/Navbar/NavToggle";
 import { Map } from "./components";
 import { getDataFromINat } from "./utils";
+import TokenService from "./services/TokenService";
 import "./App.css";
 
 function App() {
@@ -14,6 +14,7 @@ function App() {
 
   const [iNatResults, setINatResults] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
+  const [loggedOut, setLoggedOut] = useState(false);
 
   const [showNav, setShowNav] = useState(false);
 
@@ -25,6 +26,11 @@ function App() {
     setShowNav((prevValue) => !prevValue);
   };
 
+  const handleLogout = () => {
+    TokenService.clearAuthToken();
+    setLoggedOut(true);
+  };
+
   useEffect(() => {
     const success = (pos) => {
       setUserLocation(pos);
@@ -32,43 +38,65 @@ function App() {
     navigator.geolocation.getCurrentPosition(success);
   }, []);
 
-  const handleDrag = async (e) => {
-    const { lat: neLat, lng: neLng } = await e.getNorthEast().toJSON();
-    const { lat: swLat, lng: swLng } = await e.getSouthWest().toJSON();
-    const { results } = await getDataFromINat(
-      "Morchella",
-      neLat,
-      neLng,
-      swLat,
-      swLng
-    );
-    setINatResults(results);
+  const handleDrag = async ({ taxa, bounds }) => {
+    setINatResults([]);
+    console.log(taxa);
+    const { lat: neLat, lng: neLng } = await bounds.getNorthEast().toJSON();
+    const { lat: swLat, lng: swLng } = await bounds.getSouthWest().toJSON();
+    if (taxa.length) {
+      taxa.forEach(async (taxon) => {
+        const { results } = await getDataFromINat(
+          taxon.value,
+          neLat,
+          neLng,
+          swLat,
+          swLng,
+          Math.floor(100 / taxa.length)
+        );
+        setINatResults((prevValue) => [...prevValue, ...results]);
+      });
+    }
   };
+
+  useEffect(() => {
+    const success = (pos) => {
+      setUserLocation(pos);
+    };
+    navigator.geolocation.getCurrentPosition(success);
+  }, []);
 
   return (
     <div className="App">
       <Route
         path="/"
         render={() => (
-          <NavBar handleNavToggle={handleNavToggle} showNav={showNav} />
+          <NavBar
+            handleNavToggle={handleNavToggle}
+            showNav={showNav}
+            handleLogout={handleLogout}
+          />
         )}
       />
       <Route
         exact
         path="/login"
         render={(props) => (
-          <Login isLoggedIn={isLoggedIn} handleLogin={handleLogin} />
+          <Login
+            loggedOut={loggedOut}
+            isLoggedIn={isLoggedIn}
+            handleLogin={handleLogin}
+          />
         )}
       />
       <Route exact path="/register" component={Register} />
       <Route exact path="/about" component={About} />
       <main>
         <section className="main">
-          <NavToggle handleNavToggle={handleNavToggle} />
           <Map
             userLocation={userLocation}
             iNatResults={iNatResults}
             handleDrag={handleDrag}
+            handleNavToggle={handleNavToggle}
           />
         </section>
       </main>

@@ -5,8 +5,11 @@ import {
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
+
 import mapStyles from "./styles/mapStyles";
-import CenterUserButton from "../CenterUserButton";
+import ButtonContainer from "../UI/ButtonContainer";
+import { taxaOptions } from "../../utils";
+import SearchBar from "../UI/SearchBar";
 
 const mapContainerStyle = {
   width: "100vw",
@@ -21,12 +24,16 @@ const options = {
   disableDefaultUI: true,
   zoomControl: true,
 };
+const libraries = ["places"]; //avoid unnecessary rerenders
 
-function Map({ iNatResults, handleDrag, userLocation }) {
+function Map({ iNatResults, handleDrag, userLocation, handleNavToggle }) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    libraries,
   });
   const [selected, setSelected] = useState(null);
+
+  const [taxa, setTaxa] = useState([taxaOptions[0]]);
 
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
@@ -35,6 +42,7 @@ function Map({ iNatResults, handleDrag, userLocation }) {
 
   const panTo = useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
+    //mapRef.current.setZoom(14)
   }, []);
 
   const handleCenterUser = (pos) => {
@@ -52,17 +60,37 @@ function Map({ iNatResults, handleDrag, userLocation }) {
   }, [panTo]);
 
   const getNewBounds = () => {
-    handleDrag(mapRef.current.getBounds());
+    handleDrag({
+      taxa: taxa,
+      bounds: mapRef.current.getBounds(),
+    });
+  };
+
+  const handleTaxaChange = async (e) => {
+    setTaxa(e);
+    handleDrag({
+      taxa: e,
+      bounds: mapRef.current.getBounds(),
+    });
   };
 
   if (loadError) return "Error loading map";
   if (!isLoaded) return "Loading map...";
   return (
     <div>
-      <CenterUserButton
+      <SearchBar
+        taxa={taxa}
+        handleTaxaChange={handleTaxaChange}
+        panTo={panTo}
         userLocation={userLocation}
-        handleHomeButton={handleCenterUser}
       />
+
+      <ButtonContainer
+        handleNavToggle={handleNavToggle}
+        userLocation={userLocation}
+        handleCenterUser={handleCenterUser}
+      />
+
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={11}
@@ -70,7 +98,7 @@ function Map({ iNatResults, handleDrag, userLocation }) {
         options={options}
         onLoad={onMapLoad}
         onIdle={getNewBounds}
-        onClick={selected ? () => setSelected(null) : null}
+        onClick={selected && (() => setSelected(null))}
       >
         {userLocation && (
           <Marker
@@ -78,6 +106,7 @@ function Map({ iNatResults, handleDrag, userLocation }) {
               lat: userLocation.coords.latitude,
               lng: userLocation.coords.longitude,
             }}
+            title="You are here!"
           />
         )}
         {iNatResults.map((marker) => (
@@ -97,7 +126,7 @@ function Map({ iNatResults, handleDrag, userLocation }) {
           />
         ))}
 
-        {selected ? (
+        {selected && (
           <InfoWindow
             options={{
               pixelOffset: new window.google.maps.Size(0, -30),
@@ -113,12 +142,30 @@ function Map({ iNatResults, handleDrag, userLocation }) {
             <div>
               <h2>{selected.taxon.name}</h2>
               <p>
-                found at latitude:{selected.geojson.coordinates[1]} longitude:
+                Found at latitude:{selected.geojson.coordinates[1]} longitude:
                 {selected.geojson.coordinates[0]}
               </p>
+              <p>
+                Observed on: {selected.observed_on_details.month}/
+                {selected.observed_on_details.day}/
+                {selected.observed_on_details.year}
+              </p>
+              <p>Found by: {selected.user.login}</p>
+
+              <img
+                src={selected.photos[0].url.replace("square", "medium")}
+                alt={`morel found by user ${selected.user.login}`}
+              />
+              <br></br>
+              <a
+                href={`http://www.google.com/maps/place/${selected.geojson.coordinates[1]},${selected.geojson.coordinates[0]}`}
+                target={`_blank`}
+              >
+                View on Google Maps
+              </a>
             </div>
           </InfoWindow>
-        ) : null}
+        )}
       </GoogleMap>
     </div>
   );
